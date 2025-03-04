@@ -19,6 +19,19 @@ export default function App() {
     }
   };
 
+  const handleDownload = () => {
+    const jsonString = JSON.stringify(annotations, null, 2);
+    const blob = new Blob([jsonString], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "igbo-annotations.json";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
   const handleSubmit = async () => {
     setLoading(true);
     try {
@@ -71,11 +84,18 @@ export default function App() {
         <div className="w-full max-w-2xl">
           <div className="flex justify-between items-center mb-2">
             <h1 className="text-white">Result</h1>
-            <button
-              onClick={handleCopy}
-              className="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-3 rounded text-sm">
-              {copied ? "Copied!" : "Copy"}
-            </button>
+            <div className="space-x-2">
+              <button
+                onClick={handleCopy}
+                className="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-3 rounded text-sm">
+                {copied ? "Copied!" : "Copy"}
+              </button>
+              <button
+                onClick={handleDownload}
+                className="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-3 rounded text-sm">
+                Download
+              </button>
+            </div>
           </div>
           <pre className="bg-white p-4 rounded">
             {JSON.stringify(annotations, null, 2)}
