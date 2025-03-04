@@ -26,8 +26,8 @@ pip install -r requirements.txt
 fastapi dev app.py
 ```
 
-The API will be available at http://127.0.0.1:8000
-Swagger API documentation can be accessed at http://127.0.0.1:8000/docs
+The API will be available at http://127.0.0.1:8000 \
+Swagger API documentation can be accessed at http://127.0.0.1:8000/docs \
 Redoc API documentation can be accessed at http://127.0.0.1:8000/redoc
 
 ### Frontend Setup
