@@ -4,13 +4,14 @@ import axios from "axios";
 
 export default function App() {
   const [text, setText] = useState("");
+  const [strategy, setStrategy] = useState("simple");
   const [annotations, setAnnotations] = useState(null);
   const [loading, setLoading] = useState(false);
   const handleSubmit = async () => {
     setLoading(true);
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/annotate?strategy=simple",
+        `http://127.0.0.1:8000/annotate?strategy=${strategy}`,
         { text },
         { headers: { "Content-Type": "application/json" } }
       );
@@ -25,6 +26,19 @@ export default function App() {
       <h1 className="text-3xl font-bold text-white mb-4">
         Igbo Annotation Tool
       </h1>
+      <div className="flex items-center mb-4">
+        <label className="text-white mb-2">Aggregation Strategy: &nbsp;</label>
+        <select
+          value={strategy}
+          onChange={(e) => setStrategy(e.target.value)}
+          className="bg-white p-2 rounded">
+          <option value="none">None</option>
+          <option value="simple">Simple</option>
+          <option value="first">First</option>
+          <option value="average">Average</option>
+          <option value="max">Max</option>
+        </select>
+      </div>
       <textarea
         value={text}
         cols="50"
