@@ -7,6 +7,18 @@ export default function App() {
   const [strategy, setStrategy] = useState("simple");
   const [annotations, setAnnotations] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(JSON.stringify(annotations, null, 2));
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error("Failed to copy text: ", err);
+    }
+  };
+
   const handleSubmit = async () => {
     setLoading(true);
     try {
@@ -56,9 +68,16 @@ export default function App() {
       </button>
 
       {annotations && (
-        <div>
-          <h1>Result</h1>
-          <pre className="bg-white p-4">
+        <div className="w-full max-w-2xl">
+          <div className="flex justify-between items-center mb-2">
+            <h1 className="text-white">Result</h1>
+            <button
+              onClick={handleCopy}
+              className="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-3 rounded text-sm">
+              {copied ? "Copied!" : "Copy"}
+            </button>
+          </div>
+          <pre className="bg-white p-4 rounded">
             {JSON.stringify(annotations, null, 2)}
           </pre>
         </div>
