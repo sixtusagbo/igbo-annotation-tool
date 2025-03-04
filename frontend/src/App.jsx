@@ -10,8 +10,8 @@ export default function App() {
     setLoading(true);
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/annotate",
-        { text, strategy: "simple" },
+        "http://127.0.0.1:8000/annotate?strategy=simple",
+        { text },
         { headers: { "Content-Type": "application/json" } }
       );
       setAnnotations(response.data);
