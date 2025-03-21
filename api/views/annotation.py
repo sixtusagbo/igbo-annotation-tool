@@ -2,8 +2,8 @@
 """Annotation views"""
 
 from fastapi import APIRouter, Query
-from api.models.annotation_request import AnnotationRequest
-from api.utils.igbo_ner import get_pipeline, AggregationStrategy
+from api.models.ner_request import NERRequest
+from api.utils.igbo_ner import get_ner_pipeline, AggregationStrategy
 from api.utils.converter import convert_numpy_types
 from typing import Annotated
 
@@ -14,9 +14,9 @@ router = APIRouter(
 )
 
 
-@router.post("/")
-async def annotate(
-    request: AnnotationRequest,
+@router.post("/ner")
+async def ner(
+    request: NERRequest,
     strategy: Annotated[
         AggregationStrategy,
         Query(
@@ -25,9 +25,9 @@ async def annotate(
     ] = "simple",
 ):
     """
-    Annotate the given text using specified aggregation strategy.
+    Annotate the given text with Named Entity Recognition (NER)
     """
-    pipeline = get_pipeline(strategy)
+    pipeline = get_ner_pipeline(strategy)
     annotations = pipeline(request.text)
     converted_annotations = convert_numpy_types(annotations)
     return converted_annotations

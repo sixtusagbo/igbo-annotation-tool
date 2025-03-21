@@ -5,7 +5,7 @@ Pydantic models for annotation request validation.
 from pydantic import BaseModel
 
 
-class AnnotationRequest(BaseModel):
+class NERRequest(BaseModel):
     """
     Request model for text annotation.
 

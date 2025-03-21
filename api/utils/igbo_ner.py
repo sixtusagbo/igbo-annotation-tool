@@ -12,7 +12,7 @@ tokenizer = AutoTokenizer.from_pretrained(model_name)
 model = AutoModelForTokenClassification.from_pretrained(model_name)
 
 
-def get_pipeline(strategy: AggregationStrategy = "simple"):
+def get_ner_pipeline(strategy: AggregationStrategy = "simple"):
     """
     Get NER pipeline with configurable aggregation strategy
 
