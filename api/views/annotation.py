@@ -31,3 +31,15 @@ async def ner(
     annotations = pipeline(request.text)
     converted_annotations = convert_numpy_types(annotations)
     return converted_annotations
+
+
+@router.post("/pos")
+async def pos():
+    """Annotate the given text showing it's Part of Speech (POS)"""
+    return {"message": "Not implemented yet"}
+
+
+@router.post("/sentiment-analysis")
+async def sentiment_analysis():
+    """Perform sentiment analysis on the given text"""
+    return {"message": "Not implemented yet"}
