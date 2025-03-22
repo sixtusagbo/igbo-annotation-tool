@@ -46,7 +46,7 @@ async def pos(
     """
     Annotate the given text showing its Part of Speech (POS)
     """
-    pipeline = get_pos_pipeline()
+    pipeline = get_pos_pipeline(strategy)
     annotations = pipeline(request.text)
     converted_annotations = convert_numpy_types(annotations)
     return converted_annotations
