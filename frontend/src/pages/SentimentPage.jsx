@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { analyzeSentiment } from "../services/apiService";
+import { handleCopy, handleDownload } from "../utils";
 
 export default function SentimentPage() {
   const [texts, setTexts] = useState([""]);
@@ -8,27 +9,12 @@ export default function SentimentPage() {
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  const handleCopy = async () => {
-    try {
-      await navigator.clipboard.writeText(JSON.stringify(results, null, 2));
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch (err) {
-      console.error("Failed to copy text: ", err);
-    }
+  const onCopy = async () => {
+    await handleCopy(results, setCopied);
   };
 
-  const handleDownload = () => {
-    const jsonString = JSON.stringify(results, null, 2);
-    const blob = new Blob([jsonString], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "igbo-sentiment-analysis.json";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+  const onDownload = () => {
+    handleDownload(results, "igbo-sentiment-analysis.json");
   };
 
   const handleTextChange = (index, value) => {
@@ -118,12 +104,12 @@ export default function SentimentPage() {
             <h2 className="text-xl font-semibold text-gray-800">Results</h2>
             <div className="space-x-2">
               <button
-                onClick={handleCopy}
+                onClick={onCopy}
                 className="bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-1 px-3 rounded text-sm">
                 {copied ? "Copied!" : "Copy"}
               </button>
               <button
-                onClick={handleDownload}
+                onClick={onDownload}
                 className="bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-1 px-3 rounded text-sm">
                 Download
               </button>
