@@ -3,9 +3,18 @@ services:
     name: igbo-annotation-tool
     env: docker
     dockerfilePath: ./Dockerfile
-    healthCheckPath: /
+    healthCheckPath: /health
     envVars:
       - key: PORT
-        value: 8000
-    buildCommand: docker build -t igbo-annotation-tool .
-    startCommand: docker run -p $PORT:8000 igbo-annotation-tool
+        value: 10000
+    plan: free
+    autoDeploy: true
+    # Explicitly specify port binding
+    port: 10000
+    # Limit memory usage
+    scaling:
+      minInstances: 1
+      maxInstances: 1
+      targetMemoryPercent: 80
+    initialDeployHook:
+      shellCommand: echo "Starting deployment"

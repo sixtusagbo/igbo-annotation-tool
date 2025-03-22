@@ -27,3 +27,9 @@ app.include_router(annotation.router)
 def read_root():
     """Base route"""
     return {"message": "Hello World!"}
+
+
+@app.get("/health")
+def health_check():
+    """Health check endpoint for Render"""
+    return {"status": "healthy"}
