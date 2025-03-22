@@ -4,6 +4,7 @@ import HomePage from "./pages/HomePage";
 import NotFoundPage from "./pages/NotFoundPage";
 import NERPage from "./pages/NERPage";
 import POSPage from "./pages/POSPage";
+import SentimentPage from "./pages/SentimentPage";
 
 export default function App() {
   return (
@@ -13,6 +14,7 @@ export default function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/ner" element={<NERPage />} />
           <Route path="/pos" element={<POSPage />} />
+          <Route path="/sentiment" element={<SentimentPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </div>
