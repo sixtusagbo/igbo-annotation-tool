@@ -1,7 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
-import HomePage from "./components/HomePage";
-import NotFoundPage from "./components/NotFoundPage";
+import HomePage from "./pages/HomePage";
+import NotFoundPage from "./pages/NotFoundPage";
+import NERPage from "./pages/NERPage";
 
 export default function App() {
   return (
@@ -9,6 +10,7 @@ export default function App() {
       <div className="min-h-screen bg-gray-50">
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/ner" element={<NERPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </div>
