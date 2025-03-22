@@ -30,6 +30,18 @@ The API will be available at http://127.0.0.1:8000 \
 Swagger API documentation can be accessed at http://127.0.0.1:8000/docs \
 Redoc API documentation can be accessed at http://127.0.0.1:8000/redoc
 
+To deploy on local network, run the API with the following command:
+
+```bash
+uvicorn api.app:app --host 0.0.0.0 --port 8000
+```
+
+OR
+
+```bash
+fastapi dev api/app.py --host 0.0.0.0 --port 8000
+```
+
 ### Frontend Setup
 
 1. Install the frontend dependencies:
@@ -46,6 +58,8 @@ npm run dev
 ```
 
 The application will be available at http://localhost:5173
+
+If deploying on a local network, remember to update the API Base URL in [fontend/src/config.js](frontend/src/config.js) to the local network IP address.
 
 ## Example Usage
 
