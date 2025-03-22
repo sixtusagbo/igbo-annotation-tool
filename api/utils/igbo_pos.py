@@ -1,24 +1,21 @@
 #!/usr/bin/env python3
-"""This module sets up the tokenizer and model for processing Igbo text"""
+"""This module handles Igbo text POS tagging"""
 
 from transformers import pipeline
 from transformers import AutoTokenizer, AutoModelForTokenClassification
 from api.utils import AggregationStrategy
 
-model_name = "mbeukman/xlm-roberta-base-finetuned-igbo-finetuned-ner-igbo"
+model_name = "ignatius/igbo_model"
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 model = AutoModelForTokenClassification.from_pretrained(model_name)
 
 
-def get_ner_pipeline(strategy: AggregationStrategy = "simple"):
+def get_pos_pipeline(strategy: AggregationStrategy = "simple"):
     """
-    Get NER pipeline with configurable aggregation strategy
-
-    Args:
-        strategy: One of "none", "simple", "first", "average", or "max"
+    Get POS pipeline for Igbo text
     """
     return pipeline(
-        "ner",
+        "token-classification",
         model=model,
         tokenizer=tokenizer,
         aggregation_strategy=None if strategy == "none" else strategy,

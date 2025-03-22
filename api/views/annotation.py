@@ -2,8 +2,9 @@
 """Annotation views"""
 
 from fastapi import APIRouter, Query
-from api.models.ner_request import NERRequest
+from api.models.annotation_request import AnnotationRequest
 from api.utils.igbo_ner import get_ner_pipeline, AggregationStrategy
+from api.utils.igbo_pos import get_pos_pipeline
 from api.utils.converter import convert_numpy_types
 from typing import Annotated
 
@@ -12,16 +13,15 @@ router = APIRouter(
     tags=["annotation"],
     responses={404: {"message": "Not found"}},
 )
+aggregation_description = "Aggregation strategy for the results"
 
 
-@router.post("/ner")
+@router.post("/ner", summary="Named Entity Recognition (NER)")
 async def ner(
-    request: NERRequest,
+    request: AnnotationRequest,
     strategy: Annotated[
         AggregationStrategy,
-        Query(
-            description="Aggregation strategy for NER results", example="simple"
-        ),
+        Query(description=aggregation_description),
     ] = "simple",
 ):
     """
@@ -33,10 +33,24 @@ async def ner(
     return converted_annotations
 
 
-@router.post("/pos")
-async def pos():
-    """Annotate the given text showing it's Part of Speech (POS)"""
-    return {"message": "Not implemented yet"}
+@router.post("/pos", summary="Part of Speech (POS)")
+async def pos(
+    request: AnnotationRequest,
+    strategy: Annotated[
+        AggregationStrategy,
+        Query(description=aggregation_description),
+    ] = "simple",
+):
+    """
+    Annotate the given text showing its Part of Speech (POS)
+
+    Returns:
+        A list of tokens with their POS tags
+    """
+    pipeline = get_pos_pipeline()
+    annotations = pipeline(request.text)
+    converted_annotations = convert_numpy_types(annotations)
+    return converted_annotations
 
 
 @router.post("/sentiment-analysis")

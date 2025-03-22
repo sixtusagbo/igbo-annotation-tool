@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 Pydantic models for annotation request validation.
 """
@@ -5,7 +6,7 @@ Pydantic models for annotation request validation.
 from pydantic import BaseModel
 
 
-class NERRequest(BaseModel):
+class AnnotationRequest(BaseModel):
     """
     Request model for text annotation.
 
