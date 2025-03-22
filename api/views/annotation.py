@@ -2,7 +2,10 @@
 """Annotation views"""
 
 from fastapi import APIRouter, Query
-from api.models.annotation_request import AnnotationRequest
+from api.models.annotation_request import (
+    AnnotationRequest,
+    BatchAnnotationRequest,
+)
 from api.utils.igbo_ner import get_ner_pipeline
 from api.utils.igbo_pos import get_pos_pipeline
 from api.utils.igbo_sentiment_analysis import get_sentiment_pipeline
@@ -53,9 +56,16 @@ async def pos(
 
 
 @router.post("/sentiment-analysis")
-async def sentiment_analysis(request: AnnotationRequest):
-    """Perform sentiment analysis on the given text"""
+async def sentiment_analysis(
+    request: BatchAnnotationRequest,
+):
+    """Perform sentiment analysis on the given texts"""
     pipeline = get_sentiment_pipeline()
-    annotations = pipeline(request.text)
-    converted_annotations = convert_numpy_types(annotations)
-    return converted_annotations
+    results = []
+
+    for text in request.texts:
+        annotations = pipeline(text)
+        converted_annotations = convert_numpy_types(annotations)
+        results.append(converted_annotations)
+
+    return results
