@@ -4,6 +4,7 @@ This is the API for the Igbo Annotation project. It is a RESTful API that provid
 
 - Named Entity Recognition (NER)
 - Part of Speech (POS) Tagging
+- Sentiment Analysis
 
 ## Named Entity Recognition
 
@@ -88,5 +89,83 @@ Example response:
     "start": 30,
     "end": 37
   }
+]
+```
+
+## Sentiment Analysis
+
+The Sentiment Analysis endpoint is `/annotate/sentiment-analysis`. It accepts a POST request with a JSON payload containing a list of texts to be analyzed. The response is a JSON array containing sentiment analysis results for each input text.
+
+We used [`ahmadmwali/finetuning-sentiment-igbo21`](https://huggingface.co/ahmadmwali/finetuning-sentiment-igbo21) model for this feature.
+
+Example request:
+
+```json
+{
+  "texts": [
+    "Ọ dị mma",
+    "M na-agba ọsọ n'ụtụtụ",
+    "Ọ dị njọ",
+    "Ọ dị njọ nke ukwuu",
+    "Ihe a jọrọ njọ nke ukwuu",
+    "Ọ bụ ihe jọgburu onwe ya",
+    "Ọ dị egwu nke ukwuu",
+    "Ọ dị mma ma ọ dịkwa njọ"
+  ]
+}
+```
+
+Example response:
+
+```json
+[
+  [
+    {
+      "label": "LABEL_2",
+      "score": 0.9741294980049133
+    }
+  ],
+  [
+    {
+      "label": "LABEL_1",
+      "score": 0.8442045450210571
+    }
+  ],
+  [
+    {
+      "label": "LABEL_1",
+      "score": 0.5785192847251892
+    }
+  ],
+  [
+    {
+      "label": "LABEL_1",
+      "score": 0.8063856959342957
+    }
+  ],
+  [
+    {
+      "label": "LABEL_1",
+      "score": 0.9572234153747559
+    }
+  ],
+  [
+    {
+      "label": "LABEL_1",
+      "score": 0.709209680557251
+    }
+  ],
+  [
+    {
+      "label": "LABEL_1",
+      "score": 0.5713135600090027
+    }
+  ],
+  [
+    {
+      "label": "LABEL_1",
+      "score": 0.5301251411437988
+    }
+  ]
 ]
 ```
