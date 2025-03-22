@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: igbo-annotation-tool
+    env: docker
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /
+    envVars:
+      - key: PORT
+        value: 8000
+    buildCommand: docker build -t igbo-annotation-tool .
+    startCommand: docker run -p $PORT:8000 igbo-annotation-tool
