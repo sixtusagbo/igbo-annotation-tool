@@ -3,8 +3,10 @@
 
 from fastapi import APIRouter, Query
 from api.models.annotation_request import AnnotationRequest
-from api.utils.igbo_ner import get_ner_pipeline, AggregationStrategy
+from api.utils.igbo_ner import get_ner_pipeline
 from api.utils.igbo_pos import get_pos_pipeline
+from api.utils.igbo_sentiment_analysis import get_sentiment_pipeline
+from api.utils import AggregationStrategy
 from api.utils.converter import convert_numpy_types
 from typing import Annotated
 
@@ -43,9 +45,6 @@ async def pos(
 ):
     """
     Annotate the given text showing its Part of Speech (POS)
-
-    Returns:
-        A list of tokens with their POS tags
     """
     pipeline = get_pos_pipeline()
     annotations = pipeline(request.text)
@@ -54,6 +53,9 @@ async def pos(
 
 
 @router.post("/sentiment-analysis")
-async def sentiment_analysis():
+async def sentiment_analysis(request: AnnotationRequest):
     """Perform sentiment analysis on the given text"""
-    return {"message": "Not implemented yet"}
+    pipeline = get_sentiment_pipeline()
+    annotations = pipeline(request.text)
+    converted_annotations = convert_numpy_types(annotations)
+    return converted_annotations
