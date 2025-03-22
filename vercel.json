@@ -1,0 +1,14 @@
+{
+  "builds": [
+    {
+      "src": "/api/v1/app.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "api/v1/app.py"
+    }
+  ]
+}
